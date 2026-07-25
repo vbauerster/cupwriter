@@ -28,7 +28,10 @@ func TestWriterFlush(t *testing.T) {
 			// need at least 2 flushes for esc chars to appear
 			for range 2 {
 				cw.WriteString(test.input)
-				cw.Flush(test.lines)
+				err := cw.Flush(test.lines)
+				if err != nil {
+					t.Fatal(err)
+				}
 			}
 			p, err := parse(out.String())
 			if err != nil {
