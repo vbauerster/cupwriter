@@ -13,10 +13,8 @@ const (
 	cuuAndEd = "A\x1b[J"
 )
 
-// New constructs a new Writer which abstracts writing multi lines to a fixed
+// New constructs a *Writer which abstracts writing multi lines to a fixed
 // position within a terminal.
-// - out: usually it's either os.Stdout or os.Stderr under the hood
-// - forceTTY: force TTY behaviour regardless of terminal probe result
 func New(out io.Writer, forceTTY bool) *Writer {
 	bb := make([]byte, 16)
 	w := &Writer{
@@ -37,7 +35,7 @@ func New(out io.Writer, forceTTY bool) *Writer {
 // Use case: preserve terminal behaviour while constructing *Writer
 // with io.Writer wrapper.
 //
-//	cw := New(io.MultiWriter(os.Stdout, &someTestBuf), 0, false)
+//	cw := New(io.MultiWriter(os.Stdout, &someTestBuf), false)
 //	cw.IsTerminal() // returns false
 //	cw.SetTermFd(int(os.Stdout.Fd()))
 //	cw.IsTerminal() // returns true
